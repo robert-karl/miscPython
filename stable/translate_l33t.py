@@ -19,6 +19,9 @@ NONE -> 9
 
 @author: robert-karl
 """
+import warnings
+
+
 request = "Please type phrase to be translated: \n"
 phrase = input(request)
 
@@ -27,7 +30,10 @@ oldChar = 'oleastb'
 newChar = '0134578'
 
 # Now we will replace various lower case letters
-for nn in range(0,len(oldChar)):
+nConvert = min(len(oldChar),len(newChar))    # Avoids indexing out of range by only looping through the shorter string.
+if len(oldChar)!=len(newChar):
+    warnings.warn("The translation keys are of differrent lengths, not all letters have been translated.",RuntimeWarning)
+for nn in range(0,nConvert):
     phrase = phrase.replace(oldChar[nn],newChar[nn])
 
 
