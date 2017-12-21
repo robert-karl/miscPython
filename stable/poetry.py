@@ -15,14 +15,6 @@ def makePoem():
 
     # Poetic structure
     structure = "{art0} {adj0} {noun0} \n\n{art0} {adj0} {noun0} {verb0} {pre0} the {adj1} {noun1}\n{adv0}, the {noun0} {verb1} the {noun1} \n{verb1} {pre1} {art1} {adj2} {noun2}."
-    """ Here's a key to what the numbers are:
-        0,1,2       adjectives
-        3,4,5       nouns
-        6,7         verbs
-        8           adverbs
-        9,10        prepositions
-        11,12       articles
-    """
     
     # Build the vocabulary
     adjectives = ['furry','balding','incredulous','fragrant','exuberant','glistening']
@@ -31,67 +23,59 @@ def makePoem():
     adverbs = ['curiously','extravagantly','tantalizingly','furiously','sensuously']
     prepositions = ['against','after','into','beneath','upon','for','in','like','over','within']
     
-    # Select the words
+    # Select the words, put them in the choices dictionary
+    choices = {}
     # For the structure above we need
     
     # 3 adjectives
     Nadj = 3
-    adjChoice = []
     for adj in range(0,Nadj):
         newAdj = choice(adjectives)
-        adjChoice.append(newAdj)
+        choices['adj'+str(adj)]=newAdj
         adjectives.remove(newAdj)
     
     # 3 nouns
     Nn = 3
-    nChoice = []
     for nn in range(0,Nn):
         newNoun = choice(nouns)
-        nChoice.append(newNoun)
+        choices['noun'+str(nn)]=newNoun
         nouns.remove(newNoun)
     
     # 2 verbs
     Nv = 2
-    vChoice = []
     for vv in range(0,Nv):
         newVerb = choice(verbs)
-        vChoice.append(newVerb)
+        choices['verb'+str(vv)]=newVerb
         verbs.remove(newVerb)
     
     # 1 adverb
     Nadv = 1
-    advChoice = []
     for adv in range(0,Nadv):
         newAdv = choice(adverbs)
-        advChoice.append(newAdv)
+        choices['adv'+str(adv)]=newAdv
         adverbs.remove(newAdv)
     
     # 2 prepositions
     Np = 2
-    pChoice = []
     for pp in range(0,Np):
         newPrep = choice(prepositions)
-        pChoice.append(newPrep)
+        choices['pre'+str(pp)]=newPrep
         prepositions.remove(newPrep)
         
     # Set the articles based on the following word
     vowels = 'aeiou'
-    art = ['a','a']
-    if vowels.find(adjChoice[0][0])>=0:
-        art[0] = 'an'
-    if vowels.find(adjChoice[2][0])>=0:
-        art[1] = 'an'
+    if vowels.find(choices['adj0'])>=0:
+        choices['art0'] = 'an'
+    else:
+        choices['art0'] = 'a'
+    if vowels.find(choices['adj2'])>=0:
+        choices['art1'] = 'an'
+    else:
+        choices['art1'] = 'a'
         
     # Build the poem
-    poem = structure.format(adj0=adjChoice[0],adj1=adjChoice[1],adj2=adjChoice[2],noun0=nChoice[0],noun1=nChoice[1],noun2=nChoice[2],verb0=vChoice[0],verb1=vChoice[1],adv0=advChoice[0],pre0=pChoice[0],pre1=pChoice[1],art0=art[0],art1=art[1])
-    ''' Here's a key to what the numbers are:
-        0,1,2       adjectives
-        3,4,5       nouns
-        6,7         verbs
-        8           adverbs
-        9,10        prepositions
-        11,12       articles
-    '''
+    poem = structure.format(**choices)
+
     # Capitalize the first letter
     poem = poem[0].upper()+poem[1:]
     
