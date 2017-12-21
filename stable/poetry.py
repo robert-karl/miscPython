@@ -75,3 +75,5 @@ def makePoem():
     return poem
 
 print(makePoem())
+exitString = 'Press <ENTER> to exit.'
+input(exitString)
