@@ -2,7 +2,10 @@
 """
 Created on Fri Nov 24 14:16:59 2017
 
-@author: rinfi_000
+This function uses a predefined dictionary to generate a poem from a template.
+It's very deep and a little bit edgy.
+
+@author: robert-karl
 """
 
 
@@ -11,7 +14,7 @@ def makePoem():
     from random import choice
 
     # Poetic structure
-    structure = "{11} {0} {3} \n\n{11} {0} {3} {6} {9} the {1} {4}\n{8}, the {3} {7} the {4} \n{7} {10} {12} {2} {5}."
+    structure = "{art0} {adj0} {noun0} \n\n{art0} {adj0} {noun0} {verb0} {pre0} the {adj1} {noun1}\n{adv0}, the {noun0} {verb1} the {noun1} \n{verb1} {pre1} {art1} {adj2} {noun2}."
     """ Here's a key to what the numbers are:
         0,1,2       adjectives
         3,4,5       nouns
@@ -80,7 +83,7 @@ def makePoem():
         art[1] = 'an'
         
     # Build the poem
-    poem = structure.format(adjChoice[0],adjChoice[1],adjChoice[2],nChoice[0],nChoice[1],nChoice[2],vChoice[0],vChoice[1],advChoice[0],pChoice[0],pChoice[1],art[0],art[1])
+    poem = structure.format(adj0=adjChoice[0],adj1=adjChoice[1],adj2=adjChoice[2],noun0=nChoice[0],noun1=nChoice[1],noun2=nChoice[2],verb0=vChoice[0],verb1=vChoice[1],adv0=advChoice[0],pre0=pChoice[0],pre1=pChoice[1],art0=art[0],art1=art[1])
     ''' Here's a key to what the numbers are:
         0,1,2       adjectives
         3,4,5       nouns
@@ -89,6 +92,7 @@ def makePoem():
         9,10        prepositions
         11,12       articles
     '''
+    # Capitalize the first letter
     poem = poem[0].upper()+poem[1:]
     
     return poem
