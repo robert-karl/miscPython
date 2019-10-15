@@ -69,27 +69,6 @@ def makeKaleido(imageBase,wedgeMask,Nslice,Nc):
     kaleido = np.zeros([Nim,Nim,Nc]);
     wedge = np.zeros([Nim,Nim,Nc]);
                       
-    for color in range(Nc):
-        wedge[:,:,color] = imageBase[:,:,color]*wedgeMask;
-        wedge[:,:,color] = wedge[:,:,color] + np.flipud(wedge[:,:,color]);
-        wedgeRot = np.zeros([Nim,Nim]);
-        # Reflect the sections
-        for slice in range(int(Nslice/2)):
-            angle = slice*360/Nslice*2;
-            wedgeRot += ndi.rotate(wedge[:,:,color],angle,reshape=False);
-        kaleido[:,:,color]=wedgeRot;
-    
-    # Clean up the image for RGB usage
-    kaleido=(kaleido-np.min(kaleido))/(np.max(kaleido)-np.min(kaleido)) ;
-    return kaleido
-
-def makeKaleido2(imageBase,wedgeMask,Nslice,Nc):
-    '''Takes the image and the wedge mask and reflects and rotates to make the 
-    kaleidoscope image.'''
-    # Prepare the image
-    kaleido = np.zeros([Nim,Nim,Nc]);
-    wedge = np.zeros([Nim,Nim,Nc]);
-                      
     wedge = imageBase*wedgeMask;
     wedge = wedge + np.flipud(wedge);
     wedgeRot = np.zeros([Nim,Nim,Nc]);
@@ -123,7 +102,7 @@ Nslice = 20;
 wedgeMask = makeWedge(Nim,Nslice);
                      
 # Create kaleidoscope image
-kaleido = makeKaleido2(imageBase,wedgeMask,Nslice,Nc)
+kaleido = makeKaleido(imageBase,wedgeMask,Nslice,Nc)
 
 
 # Show the kaleidoscope image
