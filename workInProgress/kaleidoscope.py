@@ -19,6 +19,7 @@ from matplotlib import pyplot as plt
 from scipy import ndimage as ndi
 from scipy import misc
 from os import path as path
+from matplotlib.animation import FuncAnimation
 
 def pickImage():
     ''' Selects the image from the filesystem and loads it to the workspace'''
@@ -82,28 +83,29 @@ def makeKaleido(imageBase,wedgeMask,Nslice,Nc):
     kaleido=(kaleido-np.min(kaleido))/(np.max(kaleido)-np.min(kaleido)) ;
     return kaleido
 
-# Create the image to perform reflections on
+
+# Parameters to tune
+# Final size of the image (square)
 Nim = 400;
+# Amount to shift the base image by
+shiftY = 150; #units of pixels
+shiftX = 210; 
+# Number of slices in the kaleidoscope image
+Nslice = 20;
 
 # Select the image
 imageBase = pickImage();
 Nc = imageBase.shape[2]; # Determine how many color channels there are.
 
-# Shift the image by some amounts
-shiftY = 150; #units of pixels
-shiftX = 210; 
-imageBase = shiftImage(imageBase,shiftY,shiftX);
-                       
+# Set up the figure
+im = plt.imshow(np.ones([Nim,Nim]));
+# Shift the image
+imageBase = shiftImage(imageBase,shiftY,shiftX);             
 # Select sub-region of the image
 imageBase = getCenter(imageBase,Nim);
-         
 # Create the wedge
-Nslice = 20;
 wedgeMask = makeWedge(Nim,Nslice);
-                     
 # Create kaleidoscope image
-kaleido = makeKaleido(imageBase,wedgeMask,Nslice,Nc)
-
-
-# Show the kaleidoscope image
-plt.imshow(kaleido);
+kaleido = makeKaleido(imageBase,wedgeMask,Nslice,Nc);
+# Make the plot
+im.set_array(kaleido);
